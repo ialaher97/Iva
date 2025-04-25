@@ -104,25 +104,26 @@ public class CalcularPrecioFinalTest {
 		
 		
 		//Expect:
-		Assert.assertEquals(21.0, iva, 0.01);
+		Assert.assertEquals(2.5, iva, 0.01);
 	}
 	@Test
 	public void introducirCodigoConError()throws Exception {
 		 //Given:
-		provideInput("general");
+		provideInput("5por");
 		Scanner sc = new Scanner(System.in);
-		
-		//When:
+		provideInput("50");
+		Scanner sc1 = new Scanner(System.in);
+		double base = CalcularPrecioFinal.introducirBase(sc1);
 		try {
-		Double iva = CalcularPrecioFinal.tipoIva(sc);
+		//When:
+		Double iva = CalcularPrecioFinal.introducirCodigo(sc,base);
 		
-		}catch (Exception e) {
+		}catch(Exception e) {
 		//Expect:
-		Assert.assertEquals("ERROR", e.getMessage());
-		
+		Assert.assertEquals("ERROR",e.getMessage() );
 		}
 	}
-
+	
 
 }
 
