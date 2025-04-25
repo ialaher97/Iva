@@ -19,32 +19,33 @@ public class CalcularPrecioFinal {
      TOTAL                 13.75
 */
 
-	Scanner sc = new Scanner(System.in);
+
 	
 	public static double introducirBase(Scanner sc) {
 		System.out.println("Intoduce Base");
 		double base = sc.nextDouble();
 		return base;
-		
 	}
 	
-	public static double tipoIva(Scanner sc) {
+	public static double tipoIva(Scanner sc) throws Exception {
 		System.out.println("Escribe tipo de Iva");
 		String tipoIva = sc.next();
 		double iva = 0;
 		
-		if(tipoIva.equals("general")) {
+		if(tipoIva.equalsIgnoreCase("general")) {
 			iva = 21.0;
-		}else if(tipoIva.equals("reducido")) {
+		}else if(tipoIva.equalsIgnoreCase("reducido")) {
 			iva = 10.0;
-		}else {
+		}else if(tipoIva.equalsIgnoreCase("superreducido")){
 			iva = 4.0;
+		}else {
+			throw new Exception("ERROR");
 		}
 		return iva;
 		
 	}
 	
-	public static double introducirCodigo(Scanner sc) {
+	public static double introducirCodigo(Scanner sc,double base) throws Exception {
 		System.out.println("¿Que tipo de promoción tiene?");
 		String promo = sc.next();
 		double reduccion = 0;
@@ -52,9 +53,31 @@ public class CalcularPrecioFinal {
 		if(promo.equals("nopro")) {
 			System.out.println("No se aplica promoción");
 		}else if(promo.equals("mitad")) {
-			reduccion = introducirBase()-
+			reduccion = introducirBase(sc)/2;
+		}else if(promo.equals("meno5")) {
+			reduccion = 5.0;
+		}else if(promo.equalsIgnoreCase("5porc")){
+			reduccion = base*5/100;
+		}else {
+			throw new Exception("ERROR");
 		}
-		return 0;
 		
+		return reduccion;
+		
+	}
+	
+	public static double calcularPrecio(Scanner sc) throws Exception {
+		double base = introducirBase(sc);
+		double iva = tipoIva(sc);
+		double promo = introducirCodigo(sc,base);
+		
+		double precioFinal =base +((21*base)/100)-promo;
+		return precioFinal;
+		
+	}
+	public static void main(String[] args) throws Exception {
+		Scanner sc = new Scanner(System.in);
+		System.out.println(calcularPrecio(sc));
+
 	}
 }
